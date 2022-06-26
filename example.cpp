@@ -1,83 +1,59 @@
-// C++ program of above implementation
-#include<iostream>
-
+#include<stdio.h>
+#include<algorithm>
 
 using namespace std;
 
-// structure is used to return
-// two values from minMax()
-typedef struct
-{
-    int min;
-    int max;
-}Pair;
+#define INF 1000000
 
-Pair getMinMax(int arr[], int low,
-                                 int high)
+void print_table(int n,int ara[105][105])
 {
-    Pair minmax, mml, mmr;
-    int mid;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<=n;j++){
+            if(ara[i][j] == INF){
+                printf("I\t");
+            }
+            else{
+                printf("%d\t",ara[i][j]);
+            }
 
-    // If there is only one element
-    if (low == high)
-    {
-        minmax.max = arr[low];
-        minmax.min = arr[low];
-        return minmax;
+            printf("\n");
+        }
+        printf("\n");
     }
 
-    // If there are two elements
-    if (high == low + 1)
-    {
-        if (arr[low] > arr[high])
-        {
-            minmax.max = arr[low];
-            minmax.min = arr[high];
-        }
-        else
-        {
-            minmax.max = arr[high];
-            minmax.min = arr[low];
-        }
-        return minmax;
-    }
-
-    // If there are more than 2 elements
-    mid = (low + high) / 2;
-    mml = getMinMax(arr, low, mid);
-    mmr = getMinMax(arr, mid + 1, high);
-
-    // Compare minimums of two parts
-    if (mml.min < mmr.min)
-        minmax.min = mml.min;
-    else
-        minmax.min = mmr.min;
-
-    // Compare maximums of two parts
-    if (mml.max > mmr.max)
-        minmax.max = mml.max;
-    else
-        minmax.max = mmr.max;
-
-    return minmax;
 }
 
-// Driver code
 int main()
 {
-    int arr[] = { 1000, 11, 445,
-                  1, 330, 3000 };
-    int arr_size = 6;
+    int cost[105][105];
+    int node,edge;
 
-    Pair minmax = getMinMax(arr, 0,
-                             arr_size - 1);
+    for(int i=0;i<105;i++){
+        for(int j=0;j<=105;j++){
+            cost[i][j] = INF;
+        }
+    }
+    printf("Enter the amount of node and edges: ");
+    scanf("%d %d",&node,&edge);
+    printf("Enter edges value: ");
+    for(int i=0;i<=edge;i++){
+        int u,v,c;
+        scanf("%d %d %d",&u,&v,&c);
+        cost[u][v] = c;
+        cost[v][u] = c;
+    }
 
-    cout << "Minimum element is "
-         << minmax.min << endl;
-    cout << "Maximum element is "
-         << minmax.max;
+    printf("Initial Data:\n");
+    print_table(node,cost);
 
-    return 0;
+    for(int k=0;k<node;k++){
+        for(int i = 0; i<node;i++){
+            for(int j=1;j < node ; j++){
+                cost[i][j] = min(cost[i][j],cost[i][k] + cost[k][j]);
+
+            }
+        }
+    }
+    printf("Final data: \n");
+    print_table(node,cost);
 }
-
-// This code is contributed by nik_3112
