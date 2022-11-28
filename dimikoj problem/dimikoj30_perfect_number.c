@@ -14,10 +14,10 @@ int main()
 
         }
         if(sum ==n){
-            printf("%d eh perfeito\n",n);
+            printf("YES, %d is a perfect number!\n",n);
         }
         else{
-            printf("%d nao eh perfeito\n",n);
+            printf("%d is not a perfect number!\n",n);
         }
     }
 

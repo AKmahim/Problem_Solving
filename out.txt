@@ -1,1 +1,25 @@
-Sum is: 8401963
+ns-1479.awsdns-56.org.
+ns-551.awsdns-04.net.
+ns-1947.awsdns-51.co.uk.
+ns-470.awsdns-58.com.
+
+
+http://www.onextai.com.s3-website.ap-south-1.amazonaws.com
+
+onextai.com
+
+
+
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowPublicReadAccess",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::www.onextai.com/*"
+        }
+    ]
+}
