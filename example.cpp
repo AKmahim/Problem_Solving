@@ -1,59 +1,84 @@
-#include<stdio.h>
-#include<algorithm>
+#include <iostream>
+#include <string>
 
 using namespace std;
 
-#define INF 1000000
+// Define car types
+enum CarType { Hatchback, Sedan, SUV };
 
-void print_table(int n,int ara[105][105])
+// Define services
+enum ServiceType { BasicService, EngineFixing, ClutchFixing, GearFixing, BrakeFixing };
+
+// Define service prices
+const int hatchbackPrices[] = { 2000, 5000, 2000, 1000, 3000 };
+const int sedanPrices[] = { 4000, 8000, 4000, 1500, 6000 };
+const int suvPrices[] = { 5000, 10000, 6000, 2500, 8000 };
+
+// Get car type from user
+CarType getCarType()
 {
-    for(int i=0;i<n;i++){
-        for(int j=0;j<=n;j++){
-            if(ara[i][j] == INF){
-                printf("I\t");
-            }
-            else{
-                printf("%d\t",ara[i][j]);
-            }
-
-            printf("\n");
-        }
-        printf("\n");
+    int choice;
+    cout << "Enter car type (1 for Hatchback, 2 for Sedan, 3 for SUV): ";
+    cin >> choice;
+    switch (choice)
+    {
+        case 1:
+            return Hatchback;
+        case 2:
+            return Sedan;
+        case 3:
+            return SUV;
+        default:
+            cout << "Invalid choice." << endl;
+            return getCarType();
     }
+}
 
+// Get service type from user
+ServiceType getServiceType()
+{
+    int choice;
+    cout << "Enter service type (1 for Basic Service, 2 for Engine Fixing, 3 for Clutch Fixing, 4 for Gear Fixing, 5 for Brake Fixing): ";
+    cin >> choice;
+    switch (choice)
+    {
+        case 1:
+            return BasicService;
+        case 2:
+            return EngineFixing;
+        case 3:
+            return ClutchFixing;
+        case 4:
+            return GearFixing;
+        case 5:
+            return BrakeFixing;
+        default:
+            cout << "Invalid choice." << endl;
+            return getServiceType();
+    }
+}
+
+// Get price for car and service
+int getPrice(CarType carType, ServiceType serviceType)
+{
+    switch (carType)
+    {
+        case Hatchback:
+            return hatchbackPrices[serviceType];
+        case Sedan:
+            return sedanPrices[serviceType];
+        case SUV:
+            return suvPrices[serviceType];
+        default:
+            return 0;
+    }
 }
 
 int main()
 {
-    int cost[105][105];
-    int node,edge;
-
-    for(int i=0;i<105;i++){
-        for(int j=0;j<=105;j++){
-            cost[i][j] = INF;
-        }
-    }
-    printf("Enter the amount of node and edges: ");
-    scanf("%d %d",&node,&edge);
-    printf("Enter edges value: ");
-    for(int i=0;i<=edge;i++){
-        int u,v,c;
-        scanf("%d %d %d",&u,&v,&c);
-        cost[u][v] = c;
-        cost[v][u] = c;
-    }
-
-    printf("Initial Data:\n");
-    print_table(node,cost);
-
-    for(int k=0;k<node;k++){
-        for(int i = 0; i<node;i++){
-            for(int j=1;j < node ; j++){
-                cost[i][j] = min(cost[i][j],cost[i][k] + cost[k][j]);
-
-            }
-        }
-    }
-    printf("Final data: \n");
-    print_table(node,cost);
+    CarType carType = getCarType();
+    ServiceType serviceType = getServiceType();
+    int price = getPrice(carType, serviceType);
+    cout << "Price: " << price << endl;
+    return 0;
 }
